@@ -2,7 +2,7 @@
 source <(curl -fsSL https://git.community-scripts.org/community-scripts/ProxmoxVED/raw/branch/main/misc/build.func)
 # Copyright (c) 2021-2026 community-scripts ORG
 # Author: MickLesk (CanbiZ)
-# License: MIT | https://github.com/community-scripts/ProxmoxVED/raw/main/LICENSE
+# License: MIT | https://github.com/erljef/ProxmoxVED/raw/main/LICENSE
 # Source: https://www.devuan.org/
 
 APP="Devuan"
