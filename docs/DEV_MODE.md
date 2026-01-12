@@ -7,16 +7,16 @@ Development modes provide powerful debugging and testing capabilities for contai
 ```bash
 # Single mode
 export dev_mode="motd"
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/erljef/ProxmoxVED/main/ct/wallabag.sh)"
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/erljef/ProxmoxVED/yamtrack/ct/wallabag.sh)"
 
 # Multiple modes (comma-separated)
 export dev_mode="motd,keep,trace"
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/erljef/ProxmoxVED/main/ct/wallabag.sh)"
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/erljef/ProxmoxVED/yamtrack/ct/wallabag.sh)"
 
 # Combine with verbose output
 export var_verbose="yes"
 export dev_mode="pause,logs"
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/erljef/ProxmoxVED/main/ct/wallabag.sh)"
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/erljef/ProxmoxVED/yamtrack/ct/wallabag.sh)"
 ```
 
 ## Available Modes
@@ -434,7 +434,7 @@ grep "ed563b19" /var/log/community-scripts/*.log
 ```bash
 # Initial test to see the failure
 export dev_mode="keep,logs"
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/erljef/ProxmoxVED/main/ct/wallabag.sh)"
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/erljef/ProxmoxVED/yamtrack/ct/wallabag.sh)"
 
 # Container 107 kept, check logs
 tail /var/log/community-scripts/install-*.log
