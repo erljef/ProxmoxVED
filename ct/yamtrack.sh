@@ -32,7 +32,7 @@ function update_script() {
 
   if check_for_gh_release "yamtrack" "FuzzyGrim/Yamtrack"; then
     msg_info "Stopping Services"
-    systemctl stop yamtrack
+    supervisorctl stop yamtrack:*
     msg_ok "Stopped Services"
 
     msg_info "Backing up Data"
@@ -61,7 +61,9 @@ function update_script() {
     msg_ok "Ran Migrations"
 
     msg_info "Starting Services"
-    systemctl start yamtrack
+    supervisorctl reread
+    supervisorctl update
+    supervisorctl start yamtrack:*
     msg_ok "Started Services"
 
     msg_ok "Updated successfully!"

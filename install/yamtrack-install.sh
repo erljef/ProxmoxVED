@@ -78,7 +78,7 @@ $STD systemctl reload nginx
 msg_ok "Configured Nginx"
 
 msg_info "Configuring Supervisor"
-cat <<'EOF' >/etc/supervisor/conf.d/yamtrack.conf
+cat <<EOF >/etc/supervisor/conf.d/yamtrack.conf
 [program:gunicorn]
 command=/opt/yamtrack/.venv/bin/gunicorn --chdir /opt/yamtrack/src --bind 127.0.0.1:8080 config.wsgi:application
 directory=/opt/yamtrack
@@ -87,7 +87,7 @@ autostart=true
 autorestart=true
 redirect_stderr=true
 stdout_logfile=/var/log/yamtrack-gunicorn.log
-environment=PATH="/opt/yamtrack/.venv/bin:%(ENV_PATH)s"
+environment=PATH="/opt/yamtrack/.venv/bin:%%(ENV_PATH)s",SECRET="${SECRET_KEY}",REDIS_URL="redis://localhost:6379",URLS="http://${LOCAL_IP}:8000",DEBUG="False",TZ="UTC"
 
 [program:celery]
 command=/opt/yamtrack/.venv/bin/celery --app config worker --loglevel INFO --without-mingle --without-gossip
@@ -99,7 +99,7 @@ redirect_stderr=true
 stdout_logfile=/var/log/yamtrack-celery.log
 stopwaitsecs=60
 stopasgroup=true
-environment=PATH="/opt/yamtrack/.venv/bin:%(ENV_PATH)s"
+environment=PATH="/opt/yamtrack/.venv/bin:%%(ENV_PATH)s",SECRET="${SECRET_KEY}",REDIS_URL="redis://localhost:6379",URLS="http://${LOCAL_IP}:8000",DEBUG="False",TZ="UTC"
 
 [program:celery-beat]
 command=/opt/yamtrack/.venv/bin/celery --app config beat --loglevel INFO
@@ -110,37 +110,19 @@ autorestart=true
 redirect_stderr=true
 stdout_logfile=/var/log/yamtrack-celery-beat.log
 stopasgroup=true
-environment=PATH="/opt/yamtrack/.venv/bin:%(ENV_PATH)s"
+environment=PATH="/opt/yamtrack/.venv/bin:%%(ENV_PATH)s",SECRET="${SECRET_KEY}",REDIS_URL="redis://localhost:6379",URLS="http://${LOCAL_IP}:8000",DEBUG="False",TZ="UTC"
 
 [group:yamtrack]
 programs=gunicorn,celery,celery-beat
 EOF
 msg_ok "Configured Supervisor"
 
-msg_info "Creating Service"
-cat <<'EOF' >/etc/systemd/system/yamtrack.service
-[Unit]
-Description=Yamtrack Media Tracker
-After=network.target redis-server.service
-Wants=redis-server.service
-
-[Service]
-Type=simple
-EnvironmentFile=/opt/yamtrack/.env
-ExecStart=/usr/bin/supervisord -n -c /etc/supervisor/supervisord.conf
-ExecStop=/usr/bin/supervisorctl shutdown
-Restart=on-failure
-RestartSec=5
-
-[Install]
-WantedBy=multi-user.target
-EOF
-msg_ok "Created Service"
-
 msg_info "Starting Services"
 systemctl enable -q --now redis-server
 systemctl enable -q --now nginx
-systemctl enable -q --now yamtrack
+systemctl enable -q --now supervisor
+$STD supervisorctl reread
+$STD supervisorctl update
 msg_ok "Started Services"
 
 motd_ssh
