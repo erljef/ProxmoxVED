@@ -51,6 +51,7 @@ source .venv/bin/activate
 export $(grep -v '^#' /opt/yamtrack/.env | xargs)
 $STD python src/manage.py migrate --noinput
 $STD python src/manage.py collectstatic --noinput
+deactivate
 msg_ok "Ran Database Migrations"
 
 msg_info "Configuring Nginx"
@@ -121,8 +122,8 @@ msg_info "Starting Services"
 systemctl enable -q --now redis-server
 systemctl enable -q --now nginx
 systemctl enable -q --now supervisor
-$STD /usr/bin/supervisorctl reread
-$STD /usr/bin/supervisorctl update
+$STD supervisorctl reread
+$STD supervisorctl update
 msg_ok "Started Services"
 
 motd_ssh
