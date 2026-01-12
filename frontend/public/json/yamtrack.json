@@ -1,0 +1,39 @@
+{
+  "name": "Yamtrack",
+  "slug": "yamtrack",
+  "categories": [
+    9
+  ],
+  "date_created": "2026-01-12",
+  "type": "ct",
+  "updateable": true,
+  "privileged": false,
+  "interface_port": 8000,
+  "documentation": "https://github.com/FuzzyGrim/Yamtrack/wiki",
+  "website": "https://github.com/FuzzyGrim/Yamtrack",
+  "logo": "https://raw.githubusercontent.com/FuzzyGrim/Yamtrack/main/src/static/images/logo.webp",
+  "description": "Yamtrack is a self-hosted media tracker for movies, TV shows, anime, manga, video games, and books. Track your progress, scores, and history across all your media.",
+  "install_methods": [
+    {
+      "type": "default",
+      "script": "ct/yamtrack.sh",
+      "resources": {
+        "cpu": 2,
+        "ram": 1024,
+        "hdd": 4,
+        "os": "debian",
+        "version": "13"
+      }
+    }
+  ],
+  "default_credentials": {
+    "username": null,
+    "password": null
+  },
+  "notes": [
+    {
+      "text": "Create your first user account at http://IP:8000 after installation.",
+      "type": "info"
+    }
+  ]
+}
