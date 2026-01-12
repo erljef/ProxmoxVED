@@ -122,8 +122,7 @@ msg_info "Starting Services"
 systemctl enable -q --now redis-server
 systemctl enable -q --now nginx
 systemctl enable -q --now supervisor
-$STD supervisorctl reread
-$STD supervisorctl update
+$STD systemctl restart supervisor
 msg_ok "Started Services"
 
 motd_ssh
