@@ -29,7 +29,7 @@ cd /opt/yamtrack
 $STD uv venv .venv
 source .venv/bin/activate
 $STD uv pip install -r requirements.txt
-$STD uv pip install supervisor
+deactivate
 msg_ok "Installed Python Dependencies"
 
 msg_info "Configuring Yamtrack"

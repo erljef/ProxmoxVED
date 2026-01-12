@@ -58,6 +58,7 @@ function update_script() {
     export $(grep -v '^#' /opt/yamtrack/.env | xargs)
     $STD python src/manage.py migrate --noinput
     $STD python src/manage.py collectstatic --noinput
+    deactivate
     msg_ok "Ran Migrations"
 
     msg_info "Starting Services"
